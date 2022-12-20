@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.sqlite
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./db:/root/db
+  web:
+    build:
+      context: .
+      target: dev
+    depends_on:
+      - db
+    ports:
+      - 4443:4443
+    restart: always
+    volumes:
+      - ./certs:/var/lib/certs:ro
